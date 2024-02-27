@@ -48,6 +48,8 @@ function routeRender(routes:Routes) {
  [key:string]:string
   }
   // 1) 쿼리스트링을 객체로 변환해 히스토리의 상태에 저장!
+  //name=eunhee&id=123
+  //['name=eunhee','id=123']
   const query = queryString
     .split('&')
     .reduce((acc, cur) => {
