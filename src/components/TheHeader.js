@@ -1,4 +1,4 @@
-import { Component } from '../core/heropy'
+import { Component } from '../core/core';
 
 export default class TheHeader extends Component {
   constructor() {
@@ -8,22 +8,22 @@ export default class TheHeader extends Component {
         menus: [
           {
             name: 'Search',
-            href: '#/'
+            href: '#/',
           },
           {
             name: 'Movie',
-            href: '#/movie?id=tt4520988'
+            href: '#/movie?id=tt4520988',
           },
           {
             name: 'About',
-            href: '#/about'
-          }
-        ]
-      }
-    })
+            href: '#/about',
+          },
+        ],
+      },
+    });
     window.addEventListener('popstate', () => {
-      this.render()
-    })
+      this.render();
+    });
   }
   render() {
     this.el.innerHTML = /* html */ `
@@ -34,24 +34,26 @@ export default class TheHeader extends Component {
       </a>
       <nav>
         <ul>
-          ${this.state.menus.map(menu => {
-            const href = menu.href.split('?')[0]
-            const hash = location.hash.split('?')[0]
-            const isActive = href === hash
-            return /* html */ `
+          ${this.state.menus
+            .map((menu) => {
+              const href = menu.href.split('?')[0];
+              const hash = location.hash.split('?')[0];
+              const isActive = href === hash;
+              return /* html */ `
               <li>
                 <a
                   class="${isActive ? 'active' : ''}"
                   href="${menu.href}">
                   ${menu.name}
                 </a>
-              </li>`
-          }).join('')}
+              </li>`;
+            })
+            .join('')}
         </ul>
       </nav>
       <a href="#/about" class="user">
         <img src="https://heropy.blog/css/images/logo.png" alt="User">
       </a>
-    `
+    `;
   }
 }

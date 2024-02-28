@@ -1,4 +1,4 @@
-import { Store } from '../core/heropy'
+import { Store } from '../core/core';
 
 export default new Store({
   photo: 'https://heropy.blog/css/images/logo.png',
@@ -6,5 +6,5 @@ export default new Store({
   email: 'thesecon@gmail.com',
   blog: 'https://heropy.blog',
   github: 'https://github.com/ParkYoungWoong',
-  repository: 'https://github.com/ParkYoungWoong/vanillajs-movie-app'
-})
+  repository: 'https://github.com/ParkYoungWoong/vanillajs-movie-app',
+});

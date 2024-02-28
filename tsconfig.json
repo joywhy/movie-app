@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "target": "ES2015", // 트렌스파일되는 자바스크립트 버전
+        "module": "ESNext", //import exports esm 방식
+        "moduleResolution": "Node",//파일이름 생략시 index.js 자동찾기
+        "esModuleInterop": true, //기타 모듈 방식까지 호환
+        "lib": ["ESNext", "DOM",], //컴파일과정중 어떤 라이브러리 사용할지
+        "strict": true //엄격하게
+    }
+    ,
+    "include": [
+        "src/**/*.ts",
+        "api/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
