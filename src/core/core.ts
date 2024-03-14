@@ -41,6 +41,8 @@ function routeRender(routes:Routes) {
   if (!location.hash) {
     history.replaceState(null, '', '/#/') // (상태, 제목, 주소)
   }
+  // http://localhost:1234/#/dfdfdf -> #/dfdfdf
+  // console.log(location.hash);
   const routerView = document.querySelector('router-view')
   const [hash, queryString = ''] = location.hash.split('?') // 물음표를 기준으로 해시 정보와 쿼리스트링을 구분
 
@@ -50,6 +52,8 @@ function routeRender(routes:Routes) {
   // 1) 쿼리스트링을 객체로 변환해 히스토리의 상태에 저장!
   //name=eunhee&id=123
   //['name=eunhee','id=123']
+  //반환 {name:eunhee,id:123}
+
   const query = queryString
     .split('&')
     .reduce((acc, cur) => {
@@ -57,10 +61,14 @@ function routeRender(routes:Routes) {
       acc[key] = value
       return acc
     }, {} as Query)
+    // console.log(query);
   history.replaceState(query, '') // (상태, 제목)
 
+//  console.log(routes);
+//   console.log(hash);
   // 2) 현재 라우트 정보를 찾아서 렌더링!
   const currentRoute = routes.find(route => new RegExp(`${route.path}/?$`).test(hash))
+  // console.log(currentRoute);
   if(routerView){
     routerView.innerHTML = ''
     currentRoute&& routerView.append(new currentRoute.component().el)
@@ -81,10 +89,17 @@ export function createRouter(routes:Routes) {
 
 
 ///// Store /////
-export class Store {
-  constructor(state) {
-    this.state = {} // 상태(데이터)
-    this.observers = {}
+interface StoreObsevers {
+  [key: string] :SubscribeCallback[]
+}
+interface SubscribeCallback {
+  (arg: unknown): void
+}
+export class Store <S>{
+  public state = {} as S // 상태(데이터)
+  private observers = {} as StoreObsevers
+  constructor(state:S) {
+ 
     for (const key in state) {
       // 각 상태에 대한 변경 감시(Setter) 설정!
       Object.defineProperty(this.state, key, {
@@ -101,7 +116,7 @@ export class Store {
     }
   }
   // 상태 변경 구독!
-  subscribe(key, cb) {
+  subscribe(key:string, cb :SubscribeCallback) {
     Array.isArray(this.observers[key]) // 이미 등록된 콜백이 있는지 확인!
       ? this.observers[key].push(cb) // 있으면 새로운 콜백 밀어넣기!
       : this.observers[key] = [cb] // 없으면 콜백 배열로 할당!
@@ -113,4 +128,5 @@ export class Store {
     //   message: [cb]
     // }
   }
+  setValue(key,value){this.state[key]=value}
 }
